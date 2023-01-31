@@ -4,13 +4,14 @@ import string
 
 
 class Bouton():
-    def __init__(self, message, x, y):
-        self.texte = message
+    def __init__(self, message, x, y, police):
+        self.texte = police.render(message, 1, 'black')
         self.rect = self.texte.get_rect()
         self.rect.topleft = (x, y)
         self.rect.w = self.texte.get_width()+20
         self.rect.h = self.texte.get_height()+20
 
+    #Affiche le bouton retourne True lorsque l'on clique dessus
     def affichage(self, surface):
         action = False
         pos = pygame.mouse.get_pos()
@@ -34,6 +35,7 @@ class Entree():
         self.surface = police.render(self.texte, 1, 'black')
         self.rect.h = self.surface.get_height()+20
 
+    #Affiche l'entree utilisateur permet d'ecrire lorsque la souris est dessus
     def affichage(self, surface, police):
 
         pos = pygame.mouse.get_pos()
@@ -74,7 +76,7 @@ def partie(mot, trouve):
 
     return " ".join(retour)
 
-
+#Recupere un mot au hasard d'un fichier defini
 def mot_hasard(niveau):
 
     match niveau:
@@ -92,7 +94,7 @@ def mot_hasard(niveau):
 
     return random.choice(mots)
 
-
+#Recupere les scores retourne les dix meilleurs
 def recup_scores(police):
 
     topdix = []
@@ -119,7 +121,7 @@ def recup_scores(police):
 
     return topdix
 
-
+#Ajoute le score dans scores.txt
 def ajout_score(st_pendu, mot, nom):
     score_final = (10-st_pendu)*len(mot)
     f = open("scores.txt", "a")

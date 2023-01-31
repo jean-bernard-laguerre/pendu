@@ -21,11 +21,11 @@ statut_partie = 0
 correct = []
 erreurs = []
 
-image = []
+images_pendu = []
 for i in range(10):
-    image += [pygame.image.load(f"images/pendu{i}.png")]
+    images_pendu += [pygame.image.load(f"images/pendu{i}.png")]
 
-
+#Affiche la partie en cours
 def ecran_jeu():
 
     ecran.fill((255, 255, 255))
@@ -35,27 +35,22 @@ def ecran_jeu():
 
     ecran.blit(jeu, (325,300))
     ecran.blit(reponse_fausse, (50,500))
-    ecran.blit(image[statut_pendu], (0, 100))
+    ecran.blit(images_pendu[statut_pendu], (0, 100))
 
-
+#Menu du jeu
 def ecran_menu():
     global statut_partie, solution, nom
 
     ecran.fill((255, 255, 255))
 
-    Facile = police_petit.render("FACILE", 1, 'black')
-    medium = police_petit.render("MOYEN", 1, 'black')
-    difficile = police_petit.render("DIFFICILE", 1, 'black')
-    manuel = police_petit.render("MANUEL : ", 1, 'black')
-    scores = police_petit.render("Scores", 1, 'black')
     lbl_nom = police_petit.render("Nom : ", 1, 'black')
     titre = police_titre.render("PENDU", 1, 'brown4')
     
-    btn_Facile = Bouton(Facile, 200, 250)
-    btn_medium = Bouton(medium, 350, 250)
-    btn_difficile = Bouton(difficile, 500, 250)
-    btn_manuel = Bouton(manuel, 330, 350)
-    btn_scores = Bouton(scores, 150, 500)
+    btn_Facile = Bouton("FACILE", 200, 250, police_petit)
+    btn_medium = Bouton("MOYEN", 350, 250, police_petit)
+    btn_difficile = Bouton("DIFFICILE", 500, 250, police_petit)
+    btn_manuel = Bouton("MANUEL : ", 330, 350, police_petit)
+    btn_scores = Bouton("Scores", 150, 500, police_petit)
 
     nom.affichage(ecran, police_petit)
     mot_manuel.affichage(ecran, police_petit)
@@ -82,7 +77,7 @@ def ecran_menu():
     if btn_scores.affichage(ecran):
         statut_partie = 3
 
-
+#Affiche message de fin de partie et solution
 def ecran_fin():
 
     global statut_partie
@@ -95,12 +90,11 @@ def ecran_fin():
     reponse = police_petit.render(f"Le mot etait : {solution}", 1, 'black')
     ecran.fill((255, 255, 255))
     
-    menu = police_petit.render("Menu", 1, 'black')
-    scores = police_petit.render("Scores", 1, 'black')
     partieFinie = police_grand.render(message, 1, 'black')
 
-    btn_menu = Bouton(menu, 400, 500)
-    btn_scores = Bouton(scores, 150, 500)
+    #Boutons
+    btn_menu = Bouton("Menu", 400, 500, police_petit)
+    btn_scores = Bouton("Scores", 150, 500, police_petit)
 
     if btn_menu.affichage(ecran):
         nouvelle_partie()
@@ -112,7 +106,7 @@ def ecran_fin():
     ecran.blit(partieFinie, (275, 175))
     ecran.blit(reponse, (275, 250))
 
-
+#Affiche les dix meilleurs scores
 def ecran_scores():
 
     global statut_partie
@@ -121,15 +115,15 @@ def ecran_scores():
 
     for i in range(len(scores)):
         ecran.blit(scores[i], (325, (50+(i*40))))
-
-    menu = police_petit.render("Menu", 1, 'black')
-    btn_menu = Bouton(menu, 600, 500)
-
+    
+    #bouton de retour au menu
+    btn_menu = Bouton("Menu", 600, 500, police_petit)
+    
     if btn_menu.affichage(ecran):
         nouvelle_partie()
         statut_partie = 0
 
-
+#Remet le pendu a zero
 def nouvelle_partie():
 
     global statut_pendu, correct, erreurs
@@ -138,22 +132,23 @@ def nouvelle_partie():
     correct = []
     erreurs = []
 
-
 #teste si la lettre est presente dans le mot
 def test_lettre(lettre, solution):
 
     global correct, erreurs, statut_pendu
 
+    #ne fait rien si le charactere n'est pas une lettre ou a deja été tenté
     if (lettre in correct) or (lettre in erreurs) or (lettre not in string.ascii_lowercase):
         return
 
+    #ajout la lettre a la liste d'essai corrects/erreurs si elle est dans le mot ou non
     if lettre in solution.lower():
         correct += [lettre]
     else:
         erreurs += [lettre]
         statut_pendu += 1
 
-
+#teste si le mot a été trouvé
 def victoire():
 
     for lettre in solution:
