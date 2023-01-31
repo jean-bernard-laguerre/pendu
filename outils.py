@@ -79,13 +79,13 @@ def mot_hasard(niveau):
 
     match niveau:
         case 1:
-            f = open("pendu/dictionnaires/motsFacile.txt", "r")
+            f = open("dictionnaires/motsFacile.txt", "r")
         case 2:
-            f = open("pendu/dictionnaires/motsMedium.txt", "r")
+            f = open("dictionnaires/motsMedium.txt", "r")
         case 3:
-            f = open("pendu/dictionnaires/motsDifficile.txt", "r")
+            f = open("dictionnaires/motsDifficile.txt", "r")
         case _:
-            f = open("pendu/dictionnaires/mots.txt", "r")
+            f = open("dictionnaires/mots.txt", "r")
 
     mots = f.read().splitlines()
     f.close()
@@ -97,7 +97,7 @@ def recup_scores(police):
 
     topdix = []
 
-    f = open("pendu/scores.txt", "r")
+    f = open("scores.txt", "r")
     scores = f.read().splitlines()
 
     for x in range(len(scores)):
@@ -122,7 +122,7 @@ def recup_scores(police):
 
 def ajout_score(st_pendu, mot, nom):
     score_final = (10-st_pendu)*len(mot)
-    f = open("pendu/scores.txt", "a")
+    f = open("scores.txt", "a")
     if len(nom) > 0:
         f.write(f"{nom}, {score_final}\n")
     else:

@@ -8,13 +8,14 @@ ecran = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Pendu")
 police_grand = pygame.font.SysFont('Verdana', 40)
 police_petit = pygame.font.SysFont('Verdana', 20)
+police_titre = pygame.font.SysFont('couriernew', 90)
 clock = pygame.time.Clock()
 
 
-solution = mot_hasard(0)
+solution = ''
 scores = recup_scores(police_petit)
 nom = Entree(425, 500, police_petit)
-mot_manuel = Entree(475, 300, police_petit)
+mot_manuel = Entree(475, 350, police_petit)
 statut_pendu = 0
 statut_partie = 0
 correct = []
@@ -22,7 +23,7 @@ erreurs = []
 
 image = []
 for i in range(10):
-    image += [pygame.image.load(f"pendu/images/pendu{i}.png")]
+    image += [pygame.image.load(f"images/pendu{i}.png")]
 
 
 def ecran_jeu():
@@ -48,16 +49,18 @@ def ecran_menu():
     manuel = police_petit.render("MANUEL : ", 1, 'black')
     scores = police_petit.render("Scores", 1, 'black')
     lbl_nom = police_petit.render("Nom : ", 1, 'black')
+    titre = police_titre.render("PENDU", 1, 'brown4')
     
-    btn_Facile = Bouton(Facile, 200, 200)
-    btn_medium = Bouton(medium, 350, 200)
-    btn_difficile = Bouton(difficile, 500, 200)
-    btn_manuel = Bouton(manuel, 330, 300)
+    btn_Facile = Bouton(Facile, 200, 250)
+    btn_medium = Bouton(medium, 350, 250)
+    btn_difficile = Bouton(difficile, 500, 250)
+    btn_manuel = Bouton(manuel, 330, 350)
     btn_scores = Bouton(scores, 150, 500)
 
     nom.affichage(ecran, police_petit)
     mot_manuel.affichage(ecran, police_petit)
     ecran.blit(lbl_nom, (350, 510))
+    ecran.blit(titre, (270, 75))
 
     if btn_Facile.affichage(ecran):
         solution = mot_hasard(1)
@@ -129,7 +132,7 @@ def ecran_scores():
 
 def nouvelle_partie():
 
-    global solution, statut_pendu, correct, erreurs
+    global statut_pendu, correct, erreurs
 
     statut_pendu = 0
     correct = []
@@ -141,7 +144,7 @@ def test_lettre(lettre, solution):
 
     global correct, erreurs, statut_pendu
 
-    if lettre in correct or lettre in erreurs or lettre not in string.ascii_lowercase:
+    if (lettre in correct) or (lettre in erreurs) or (lettre not in string.ascii_lowercase):
         return
 
     if lettre in solution.lower():
