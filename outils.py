@@ -11,8 +11,9 @@ class Bouton():
         self.rect.w = self.texte.get_width()+20
         self.rect.h = self.texte.get_height()+20
 
-    #Affiche le bouton retourne True lorsque l'on clique dessus
+    #Affiche le bouton retourne True lorsque l'on clique a l'interieur
     def affichage(self, surface):
+        
         action = False
         pos = pygame.mouse.get_pos()
 
@@ -35,7 +36,7 @@ class Entree():
         self.surface = police.render(self.texte, 1, 'black')
         self.rect.h = self.surface.get_height()+20
 
-    #Affiche l'entree utilisateur permet d'ecrire lorsque la souris est dessus
+    #Affiche l'entrée utilisateur permet d'écrire lorsque la souris est a l'interieur
     def affichage(self, surface, police):
 
         pos = pygame.mouse.get_pos()
