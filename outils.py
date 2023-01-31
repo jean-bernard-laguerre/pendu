@@ -1,7 +1,6 @@
 import random
 import pygame
 import string
-from tkinter import *
 
 
 class Bouton():
@@ -25,6 +24,37 @@ class Bouton():
         surface.blit(self.texte, ( self.rect.x+10, self.rect.y+10))
 
         return action
+
+
+class Entree():
+
+    def __init__(self, x, y, police):
+        self.texte = ''
+        self.rect = pygame.Rect(x, y, 100, 40)
+        self.surface = police.render(self.texte, 1, 'black')
+        self.rect.h = self.surface.get_height()+20
+
+    def affichage(self, surface, police):
+
+        pos = pygame.mouse.get_pos()
+
+        if self.rect.collidepoint(pos):
+
+            for event in pygame.event.get():
+
+                if event.type == pygame.KEYDOWN:
+
+                    if event.key == pygame.K_BACKSPACE:
+                        self.texte = self.texte[:-1]
+
+                    elif pygame.key.name(event.key) in string.ascii_lowercase:
+                        self.texte += pygame.key.name(event.key)
+
+                self.surface = police.render(self.texte, 1, 'black')
+                self.rect.w = max(100 ,self.surface.get_width()+20)
+        
+        pygame.draw.rect(surface, 'lightblue', self.rect, 2)
+        surface.blit(self.surface, (self.rect.x+10, self.rect.y+10))
 
 
 def partie(mot, trouve):
@@ -98,34 +128,3 @@ def ajout_score(st_pendu, mot, nom):
     else:
         f.write(f"Anon, {score_final}\n")
     f.close()
-
-
-class Entree():
-
-    def __init__(self, x, y, police):
-        self.texte = ''
-        self.rect = pygame.Rect(x, y, 100, 40)
-        self.surface = police.render(self.texte, 1, 'black')
-        self.rect.h = self.surface.get_height()+20
-
-    def affichage(self, surface, police):
-
-        pos = pygame.mouse.get_pos()
-
-        if self.rect.collidepoint(pos):
-
-            for event in pygame.event.get():
-
-                if event.type == pygame.KEYDOWN:
-
-                    if event.key == pygame.K_BACKSPACE:
-                        self.texte = self.texte[:-1]
-
-                    elif pygame.key.name(event.key) in string.ascii_lowercase:
-                        self.texte += pygame.key.name(event.key)
-
-                self.surface = police.render(self.texte, 1, 'black')
-                self.rect.w = max(100 ,self.surface.get_width()+20)
-        
-        pygame.draw.rect(surface, 'lightblue', self.rect, 2)
-        surface.blit(self.surface, (self.rect.x+10, self.rect.y+10))
